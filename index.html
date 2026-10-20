@@ -128,6 +128,65 @@ details p{margin:8px 0 0;color:var(--muted)}
 footer{border-top:1px solid var(--line);padding:22px 0 90px;color:var(--muted);font-size:14px;text-align:center}
 footer p{margin:4px 0}
 .fab{position:fixed;left:16px;bottom:16px;z-index:6;box-shadow:0 12px 30px rgba(6,59,28,.3)}
+
+/* ===== animation & polish ===== */
+body{overflow-x:hidden}
+.bg-blobs{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg-blobs i{position:absolute;border-radius:50%;filter:blur(60px);opacity:.45;animation:drift 18s ease-in-out infinite alternate}
+.bg-blobs i:nth-child(1){width:420px;height:420px;background:#C4B5FD;top:-120px;right:-100px}
+.bg-blobs i:nth-child(2){width:360px;height:360px;background:#93C5FD;bottom:10%;left:-120px;animation-delay:-6s}
+.bg-blobs i:nth-child(3){width:260px;height:260px;background:#FBCFE8;top:40%;right:20%;animation-delay:-12s;opacity:.3}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(40px,60px) scale(1.15)}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.hero .reveal:nth-child(2){transition-delay:.08s}.hero .reveal:nth-child(3){transition-delay:.16s}.hero .reveal:nth-child(4){transition-delay:.24s}.hero .reveal:nth-child(5){transition-delay:.32s}
+.grid3 .reveal:nth-child(2),.plans .reveal:nth-child(2),.steps .reveal:nth-child(2){transition-delay:.1s}
+.grid3 .reveal:nth-child(3),.plans .reveal:nth-child(3),.steps .reveal:nth-child(3){transition-delay:.2s}
+.grid3 .reveal:nth-child(5){transition-delay:.1s}.grid3 .reveal:nth-child(6){transition-delay:.2s}
+.hero h1 b{background-size:200% auto;animation:shine 5s linear infinite;background-image:linear-gradient(90deg,#7C3AED,#2563EB,#DB2777,#7C3AED)}
+@keyframes shine{to{background-position:200% center}}
+.btn{position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(37,211,102,.25)}
+.btn-wa:after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:sweep 3.2s ease-in-out infinite}
+@keyframes sweep{0%,60%{left:-60%}100%{left:130%}}
+.fab{animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 0 0 18px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+.card{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.card:hover,.plan:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(76,29,149,.12);border-color:#C4B5FD}
+.plan{transition:transform .25s ease,box-shadow .25s ease}
+.plan.hot:before{content:"";position:absolute;inset:-2px;border-radius:24px;padding:2px;background:linear-gradient(120deg,#7C3AED,#2563EB,#DB2777,#7C3AED);background-size:300% 300%;animation:border 6s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+@keyframes border{to{background-position:300% 0}}
+/* editor mockup */
+.editor{position:relative;border-radius:26px;background:#14112B;padding:14px;box-shadow:0 40px 80px rgba(23,19,46,.35);transform:perspective(1200px) rotateY(-8deg) rotateX(4deg);animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:perspective(1200px) rotateY(-8deg) rotateX(4deg) translateY(0)}50%{transform:perspective(1200px) rotateY(-8deg) rotateX(4deg) translateY(-12px)}}
+.ed-top{display:flex;gap:6px;margin-bottom:10px}.ed-top i{width:10px;height:10px;border-radius:50%;background:#3B3561}.ed-top i:first-child{background:#F87171}.ed-top i:nth-child(2){background:#FBBF24}.ed-top i:nth-child(3){background:#34D399}
+.ed-view{position:relative;height:190px;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#7C3AED,#2563EB 55%,#DB2777);background-size:200% 200%;animation:hue 8s ease-in-out infinite alternate;display:grid;place-items:center}
+@keyframes hue{to{background-position:100% 100%}}
+.ed-view .play{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;backdrop-filter:blur(4px)}
+.ed-view .play:before{content:"";border-style:solid;border-width:12px 0 12px 20px;border-color:transparent transparent transparent #fff;margin-left:5px}
+.ed-view .rec{position:absolute;top:10px;right:12px;display:flex;align-items:center;gap:6px;color:#fff;font:800 13px Tajawal}
+.ed-view .rec:before{content:"";width:8px;height:8px;border-radius:50%;background:#F87171;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.2}}
+.ed-view .cap{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);padding:4px 12px;border-radius:8px;background:rgba(0,0,0,.45);color:#fff;font:800 14px Tajawal;white-space:nowrap}
+.ed-tl{position:relative;margin-top:12px;display:grid;gap:7px;padding:10px;border-radius:14px;background:#1E1A3D}
+.ed-tl .tr{position:relative;height:18px;border-radius:6px;background:#2A2550}
+.ed-tl .clip{position:absolute;top:0;bottom:0;border-radius:6px}
+.ed-tl .head{position:absolute;top:4px;bottom:4px;width:2px;background:#fff;border-radius:2px;box-shadow:0 0 10px #fff;animation:head 6s linear infinite}
+.ed-tl .head:before{content:"";position:absolute;top:-5px;left:-5px;width:12px;height:8px;border-radius:3px;background:#fff}
+@keyframes head{from{right:4%}to{right:96%}}
+.chip{position:absolute;display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:14px;background:#fff;color:var(--ink);font:800 14px Tajawal;box-shadow:0 14px 30px rgba(23,19,46,.18);animation:bob 4s ease-in-out infinite}
+.chip svg{width:18px;height:18px;color:var(--p1)}
+.chip.c1{top:-14px;left:-10px}.chip.c2{bottom:70px;left:-24px;animation-delay:-1.3s}.chip.c3{bottom:-14px;right:18px;animation-delay:-2.6s}
+.chip.c3 svg{color:var(--ok)}
+@keyframes bob{50%{transform:translateY(-8px)}}
+/* marquee */
+.marquee{overflow:hidden;border-block:1px solid var(--line);background:#fff;padding:12px 0;margin-top:10px}
+.marquee .track{display:flex;gap:40px;width:max-content;animation:marq 28s linear infinite}
+.marquee span{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--muted);white-space:nowrap}
+.marquee span svg{width:18px;height:18px;color:var(--p1)}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+@media (max-width:820px){.editor{transform:none;animation:none;margin-top:10px}.chip.c2{left:-6px}}
 @media (max-width:820px){
   .hero .wrap,.grid3,.plans,.steps,.guar,.auth{grid-template-columns:1fr}
   .hero{padding-top:26px}
@@ -152,6 +211,7 @@ footer p{margin:4px 0}
   <symbol id="i-cloud" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M7 18h10a4 4 0 0 0 .6-8 6 6 0 0 0-11.4 1.6A3.3 3.3 0 0 0 7 18Z"/></symbol>
 </svg>
 
+<div class="bg-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
 <header class="top">
   <div class="wrap">
     <div class="logo"><i>Z</i><span>ZODIK STORE</span></div>
@@ -163,69 +223,75 @@ footer p{margin:4px 0}
   <div class="hero">
     <div class="wrap">
       <div>
-        <span class="badge"><svg width="18" height="18"><use href="#i-shield"/></svg> موزع معتمد · ضمان طول مدة الاشتراك</span>
-        <h1>اشتراك <b>CapCut Pro</b><br>جاهز ومفعّل على طول</h1>
-        <p class="lead">مونتاج أقوى، أدوات أكتر، ووقت أقل. استلم حساب CapCut Pro مفعّل <span class="js-delivery"></span> بعد الدفع، ومعاه ضمان ودعم فني طول المدة.</p>
-        <div class="ctas">
+        <span class="badge reveal"><svg width="18" height="18"><use href="#i-shield"/></svg> موزع معتمد · ضمان طول مدة الاشتراك</span>
+        <h1 class="reveal">اشتراك <b>CapCut Pro</b><br>جاهز ومفعّل على طول</h1>
+        <p class="lead reveal">مونتاج أقوى، أدوات أكتر، ووقت أقل. استلم حساب CapCut Pro مفعّل <span class="js-delivery"></span> بعد الدفع، ومعاه ضمان ودعم فني طول المدة.</p>
+        <div class="ctas reveal">
           <a class="btn btn-wa" href="#plans"><svg><use href="#i-bolt"/></svg>شوف الباقات</a>
           <a class="btn btn-ghost js-wa" data-msg="أهلاً، عندي سؤال عن اشتراك CapCut Pro" href="#">اسأل قبل ما تشتري</a>
         </div>
-        <div class="trust">
+        <div class="trust reveal">
           <span><svg><use href="#i-check"/></svg>تسليم سريع على واتساب</span>
           <span><svg><use href="#i-check"/></svg>استرجاع كامل لو التفعيل ما نجحش</span>
           <span><svg><use href="#i-check"/></svg><span class="js-pay"></span></span>
         </div>
       </div>
-      <div class="mock" aria-hidden="true">
-        <div class="row"><span class="pro">CapCut Pro</span><span class="pill">مفعّل ✓</span></div>
-        <ul>
-          <li><svg><use href="#i-fx"/></svg>كل التأثيرات والانتقالات والفلاتر البرو</li>
-          <li><svg><use href="#i-img"/></svg>إزالة الخلفية وتحسين جودة الصورة</li>
-          <li><svg><use href="#i-sound"/></svg>تحسين الصوت وإزالة الضوضاء</li>
-          <li><svg><use href="#i-text"/></svg>خطوط ونصوص برو وترجمة تلقائية</li>
-          <li><svg><use href="#i-cloud"/></svg>تخزين سحابي ومزامنة بين أجهزتك</li>
-        </ul>
-        <div class="note">بتستلم بيانات حساب جاهز مفعّل عليه البرو، تدخل بيه على الموبايل أو الكمبيوتر.</div>
+      <div class="reveal" style="position:relative">
+        <div class="editor" aria-hidden="true">
+          <div class="ed-top"><i></i><i></i><i></i></div>
+          <div class="ed-view"><span class="rec">4K · 60fps</span><div class="play"></div><span class="cap">مونتاج برو في دقايق</span></div>
+          <div class="ed-tl">
+            <div class="tr"><span class="clip" style="right:2%;width:34%;background:#8B5CF6"></span><span class="clip" style="right:38%;width:26%;background:#6366F1"></span><span class="clip" style="right:66%;width:30%;background:#A78BFA"></span></div>
+            <div class="tr"><span class="clip" style="right:10%;width:22%;background:#EC4899"></span><span class="clip" style="right:46%;width:40%;background:#F472B6"></span></div>
+            <div class="tr"><span class="clip" style="right:2%;width:94%;background:linear-gradient(90deg,#22C55E,#16A34A)"></span></div>
+            <span class="head"></span>
+          </div>
+        </div>
+        <span class="chip c1"><svg><use href="#i-fx"/></svg>تأثيرات برو</span>
+        <span class="chip c2"><svg><use href="#i-img"/></svg>إزالة الخلفية بالـ AI</span>
+        <span class="chip c3"><svg><use href="#i-check"/></svg>مفعّل ✓</span>
       </div>
     </div>
   </div>
 
+  <div class="marquee" aria-hidden="true"><div class="track"><span><svg><use href="#i-fx"/></svg>تأثيرات وانتقالات برو</span><span><svg><use href="#i-img"/></svg>إزالة الخلفية</span><span><svg><use href="#i-sound"/></svg>صوت أنضف</span><span><svg><use href="#i-text"/></svg>ترجمة وكابشن تلقائي</span><span><svg><use href="#i-cloud"/></svg>تخزين سحابي</span><span><svg><use href="#i-shield"/></svg>ضمان طول المدة</span><span><svg><use href="#i-bolt"/></svg>تسليم سريع</span><span><svg><use href="#i-fx"/></svg>تأثيرات وانتقالات برو</span><span><svg><use href="#i-img"/></svg>إزالة الخلفية</span><span><svg><use href="#i-sound"/></svg>صوت أنضف</span><span><svg><use href="#i-text"/></svg>ترجمة وكابشن تلقائي</span><span><svg><use href="#i-cloud"/></svg>تخزين سحابي</span><span><svg><use href="#i-shield"/></svg>ضمان طول المدة</span><span><svg><use href="#i-bolt"/></svg>تسليم سريع</span></div></div>
+
   <section>
     <div class="wrap">
-      <div class="sec-h"><h2>هتاخد إيه مع CapCut Pro؟</h2><p>المميزات المتاحة بتختلف حسب إصدار التطبيق والجهاز.</p></div>
+      <div class="sec-h reveal"><h2>هتاخد إيه مع CapCut Pro؟</h2><p>المميزات المتاحة بتختلف حسب إصدار التطبيق والجهاز.</p></div>
       <div class="grid3">
-        <div class="card feat"><div class="ic"><svg><use href="#i-cut"/></svg></div><h3>أدوات مونتاج متقدمة</h3><p>تحكم أدق في الفيديو، كي فريمز، سرعات، وماسكات.</p></div>
-        <div class="card feat"><div class="ic"><svg><use href="#i-fx"/></svg></div><h3>تأثيرات وانتقالات برو</h3><p>مكتبة كاملة من التأثيرات والانتقالات والفلاتر.</p></div>
-        <div class="card feat"><div class="ic"><svg><use href="#i-img"/></svg></div><h3>أدوات الذكاء الاصطناعي</h3><p>إزالة الخلفية، تحسين الجودة، وقص تلقائي للمقاطع.</p></div>
-        <div class="card feat"><div class="ic"><svg><use href="#i-sound"/></svg></div><h3>صوت أنضف</h3><p>تحسين الصوت وإزالة الضوضاء وتأثيرات صوتية.</p></div>
-        <div class="card feat"><div class="ic"><svg><use href="#i-text"/></svg></div><h3>خطوط ونصوص برو</h3><p>خطوط وستايلات نصوص وترجمة وكابشن تلقائي.</p></div>
-        <div class="card feat"><div class="ic"><svg><use href="#i-cloud"/></svg></div><h3>شغلك معاك في كل مكان</h3><p>مساحة سحابية ومزامنة بين الموبايل والكمبيوتر.</p></div>
+        <div class="card feat reveal"><div class="ic"><svg><use href="#i-cut"/></svg></div><h3>أدوات مونتاج متقدمة</h3><p>تحكم أدق في الفيديو، كي فريمز، سرعات، وماسكات.</p></div>
+        <div class="card feat reveal"><div class="ic"><svg><use href="#i-fx"/></svg></div><h3>تأثيرات وانتقالات برو</h3><p>مكتبة كاملة من التأثيرات والانتقالات والفلاتر.</p></div>
+        <div class="card feat reveal"><div class="ic"><svg><use href="#i-img"/></svg></div><h3>أدوات الذكاء الاصطناعي</h3><p>إزالة الخلفية، تحسين الجودة، وقص تلقائي للمقاطع.</p></div>
+        <div class="card feat reveal"><div class="ic"><svg><use href="#i-sound"/></svg></div><h3>صوت أنضف</h3><p>تحسين الصوت وإزالة الضوضاء وتأثيرات صوتية.</p></div>
+        <div class="card feat reveal"><div class="ic"><svg><use href="#i-text"/></svg></div><h3>خطوط ونصوص برو</h3><p>خطوط وستايلات نصوص وترجمة وكابشن تلقائي.</p></div>
+        <div class="card feat reveal"><div class="ic"><svg><use href="#i-cloud"/></svg></div><h3>شغلك معاك في كل مكان</h3><p>مساحة سحابية ومزامنة بين الموبايل والكمبيوتر.</p></div>
       </div>
     </div>
   </section>
 
   <section id="plans">
     <div class="wrap">
-      <div class="sec-h"><h2>اختار باقتك</h2><p>كل الباقات حساب مفعّل جاهز + ضمان طول المدة + دعم فني.</p></div>
+      <div class="sec-h reveal"><h2>اختار باقتك</h2><p>كل الباقات حساب مفعّل جاهز + ضمان طول المدة + دعم فني.</p></div>
       <div class="plans" id="plans-grid"></div>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <div class="sec-h"><h2>الطلب في 3 خطوات</h2></div>
+      <div class="sec-h reveal"><h2>الطلب في 3 خطوات</h2></div>
       <div class="steps">
-        <div class="card step"><h3>اختار الباقة</h3><p>دوس «اطلب على واتساب» تحت الباقة اللي تناسبك.</p></div>
-        <div class="card step"><h3>ادفع</h3><p>ادفع بـ <span class="js-pay"></span> وابعت صورة التحويل.</p></div>
-        <div class="card step"><h3>استلم حسابك</h3><p>هتستلم بيانات حساب CapCut Pro مفعّل <span class="js-delivery"></span>، ولو احتجت مساعدة في الدخول إحنا معاك.</p></div>
+        <div class="card step reveal"><h3>اختار الباقة</h3><p>دوس «اطلب على واتساب» تحت الباقة اللي تناسبك.</p></div>
+        <div class="card step reveal"><h3>ادفع</h3><p>ادفع بـ <span class="js-pay"></span> وابعت صورة التحويل.</p></div>
+        <div class="card step reveal"><h3>استلم حسابك</h3><p>هتستلم بيانات حساب CapCut Pro مفعّل <span class="js-delivery"></span>، ولو احتجت مساعدة في الدخول إحنا معاك.</p></div>
       </div>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <div class="sec-h"><h2>حقك مضمون</h2></div>
-      <div class="guar">
+      <div class="sec-h reveal"><h2>حقك مضمون</h2></div>
+      <div class="guar reveal">
         <div class="card"><div class="ic"><svg><use href="#i-refund"/></svg></div><div><h3>استرجاع كامل</h3><p>لو الحساب ما اتفعّلش أو ما قدرتش تدخل عليه خلال 24 ساعة من الاستلام، بنرجّعلك فلوسك كاملة.</p></div></div>
         <div class="card"><div class="ic"><svg><use href="#i-shield"/></svg></div><div><h3>ضمان طول مدة الاشتراك</h3><p>لو الاشتراك وقف لأي سبب قبل ما المدة تخلص، بنفعّله تاني أو بنرجّعلك فلوس المدة الباقية.</p></div></div>
       </div>
@@ -234,7 +300,7 @@ footer p{margin:4px 0}
 
   <section id="auth">
     <div class="wrap">
-      <div class="card auth">
+      <div class="card auth reveal">
         <div>
           <span class="badge"><svg width="18" height="18"><use href="#i-shield"/></svg> الاعتماد</span>
           <h2 style="font-size:26px;margin:10px 0 6px" class="js-auth-text"></h2>
@@ -247,7 +313,7 @@ footer p{margin:4px 0}
 
   <section>
     <div class="wrap" style="max-width:820px">
-      <div class="sec-h"><h2>أسئلة بتتكرر</h2></div>
+      <div class="sec-h reveal"><h2>أسئلة بتتكرر</h2></div>
       <details><summary>الحساب ده بتاعي لوحدي؟</summary><p>أيوه، بتستلم بيانات حساب مفعّل عليه CapCut Pro تستخدمه انت طول مدة الاشتراك.</p></details>
       <details><summary>بيشتغل على الموبايل والكمبيوتر؟</summary><p>أيوه، تقدر تدخل بالحساب من تطبيق CapCut على الموبايل أو برنامج الكمبيوتر أو الموقع.</p></details>
       <details><summary>هستلم إمتى؟</summary><p>بعد تأكيد الدفع بنبعتلك بيانات الحساب على واتساب <span class="js-delivery"></span>.</p></details>
@@ -257,7 +323,7 @@ footer p{margin:4px 0}
   </section>
 
   <div class="wrap">
-    <div class="final">
+    <div class="final reveal">
       <div><h2>جاهز تبدأ مونتاج برو؟</h2><p>كلمنا دلوقتي على واتساب واستلم حسابك <span class="js-delivery"></span>.</p></div>
       <a class="btn btn-wa js-wa" data-msg="أهلاً، عايز أشترك في CapCut Pro" href="#"><svg><use href="#i-wa"/></svg>اطلب على واتساب</a>
     </div>
@@ -282,7 +348,7 @@ footer p{margin:4px 0}
   function track(ev, data){ try{ if(window.fbq) fbq('track', ev, data||{}); }catch(e){} }
   function ping(name){ try{ if(C.api) fetch(C.api + "?t=" + encodeURIComponent(name), {mode:"no-cors", keepalive:true}); }catch(e){} }
   function each(sel, fn){ document.querySelectorAll(sel).forEach(fn); }
-  var pixelOn = false;
+  var pixelOn = false, revealed = false;
 
   function render(){
     each(".js-delivery", function(e){ e.textContent = C.deliveryTime; });
@@ -298,13 +364,13 @@ footer p{margin:4px 0}
     (C.plans || []).forEach(function(p, i){
       var hot = !!p.tag && i === 1;
       var el = document.createElement("div");
-      el.className = "plan" + (hot ? " hot" : "");
+      el.className = "plan reveal" + (hot ? " hot" : "") + (revealed ? " in" : "");
       var priceHtml = p.price
         ? '<div><span class="price">' + p.price + ' <small>جنيه</small></span>' + (p.old ? ' <span class="old">' + p.old + ' جنيه</span>' : '') + '</div>'
         : '<div class="ask">اسأل على السعر</div>';
       el.innerHTML =
         (p.tag ? '<span class="tag">' + p.tag + '</span>' : '') +
-        '<h3>CapCut Pro · ' + p.name + '</h3>' + priceHtml +
+        '<h3>CapCut Pro · <bdi>' + p.name + '</bdi></h3>' + priceHtml +
         '<ul><li><svg><use href="#i-check"/></svg>حساب مفعّل جاهز</li><li><svg><use href="#i-check"/></svg>ضمان طول المدة</li><li><svg><use href="#i-check"/></svg>دعم فني على واتساب</li></ul>';
       var a = document.createElement("a");
       a.className = "btn btn-wa";
@@ -327,10 +393,14 @@ footer p{margin:4px 0}
 
   each(".js-wa", function(a){ a.addEventListener("click", function(){ ping("عام"); track("Contact"); }); });
   render();
+  var io = ("IntersectionObserver" in window) ? new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold:.12}) : null;
+  function observe(){ each(".reveal:not(.in)", function(el){ if(io) io.observe(el); else el.classList.add("in"); }); }
+  observe();
+  setTimeout(function(){ revealed = true; }, 1500);
   if (C.api){
     fetch(C.api + "?config=1").then(function(r){ return r.json(); }).then(function(c){
       for (var k in c){ if (k !== "api" && c[k] !== undefined) C[k] = c[k]; }
-      render();
+      render(); observe();
     }).catch(function(){});
   }
 })();
