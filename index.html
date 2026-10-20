@@ -10,6 +10,7 @@
 <script>
 /* ================== الإعدادات (عدّلها بنفسك) ================== */
 var CONFIG = {
+  api: "https://script.google.com/macros/s/AKfycbz8JNWm6FzrSEIbNAa4Cg5Var__o7AVXNIf0EYzTjH8U-KXMO4e4NOSP9ekig85QUrSng/exec", // لوحة التحكم (الإعدادات بتتحدث منها تلقائي)
   whatsapp: "201036840340",            // رقم واتساب بالكود الدولي
   pixelId: "",                         // Meta Pixel ID لو حابب (سيبه فاضي لو مش عايز)
   deliveryTime: "خلال 30 دقيقة",        // مدة التسليم بعد الدفع
@@ -279,47 +280,58 @@ footer p{margin:4px 0}
   var C = CONFIG;
   function wa(msg){ return "https://wa.me/" + C.whatsapp + "?text=" + encodeURIComponent(msg); }
   function track(ev, data){ try{ if(window.fbq) fbq('track', ev, data||{}); }catch(e){} }
+  function ping(name){ try{ if(C.api) fetch(C.api + "?t=" + encodeURIComponent(name), {mode:"no-cors", keepalive:true}); }catch(e){} }
   function each(sel, fn){ document.querySelectorAll(sel).forEach(fn); }
+  var pixelOn = false;
 
-  each(".js-delivery", function(e){ e.textContent = C.deliveryTime; });
-  each(".js-pay", function(e){ e.textContent = C.payMethods; });
-  each(".js-biz", function(e){ e.textContent = C.businessName; });
-  each(".js-bizinfo", function(e){ e.textContent = C.businessInfo || "اشتراكات أدوات صناع المحتوى"; });
-  each(".js-year", function(e){ e.textContent = new Date().getFullYear(); });
-  each(".js-auth-text", function(e){ e.textContent = C.authText; });
-  if (C.authImage){ each(".js-auth-img", function(e){ e.src = C.authImage; e.hidden = false; }); }
+  function render(){
+    each(".js-delivery", function(e){ e.textContent = C.deliveryTime; });
+    each(".js-pay", function(e){ e.textContent = C.payMethods; });
+    each(".js-biz", function(e){ e.textContent = C.businessName; });
+    each(".js-bizinfo", function(e){ e.textContent = C.businessInfo || "اشتراكات أدوات صناع المحتوى"; });
+    each(".js-year", function(e){ e.textContent = new Date().getFullYear(); });
+    each(".js-auth-text", function(e){ e.textContent = C.authText; });
+    each(".js-auth-img", function(e){ if (C.authImage){ e.src = C.authImage; e.hidden = false; } else { e.hidden = true; } });
 
-  var grid = document.getElementById("plans-grid");
-  C.plans.forEach(function(p, i){
-    var hot = !!p.tag && i === 1;
-    var el = document.createElement("div");
-    el.className = "plan" + (hot ? " hot" : "");
-    var priceHtml = p.price
-      ? '<div><span class="price">' + p.price + ' <small>جنيه</small></span>' + (p.old ? ' <span class="old">' + p.old + ' جنيه</span>' : '') + '</div>'
-      : '<div class="ask">اسأل على السعر</div>';
-    el.innerHTML =
-      (p.tag ? '<span class="tag">' + p.tag + '</span>' : '') +
-      '<h3>CapCut Pro · ' + p.name + '</h3>' + priceHtml +
-      '<ul><li><svg><use href="#i-check"/></svg>حساب مفعّل جاهز</li><li><svg><use href="#i-check"/></svg>ضمان طول المدة</li><li><svg><use href="#i-check"/></svg>دعم فني على واتساب</li></ul>';
-    var a = document.createElement("a");
-    a.className = "btn btn-wa";
-    a.href = wa("أهلاً، عايز أشترك في CapCut Pro باقة " + p.name + (p.price ? " (" + p.price + " جنيه)" : ""));
-    a.target = "_blank"; a.rel = "noopener";
-    a.innerHTML = '<svg><use href="#i-wa"/></svg>اطلب على واتساب';
-    a.addEventListener("click", function(){ track("Contact", {content_name: "CapCut Pro " + p.name, value: Number(p.price)||0, currency: "EGP"}); });
-    el.appendChild(a);
-    grid.appendChild(el);
-  });
+    var grid = document.getElementById("plans-grid");
+    grid.innerHTML = "";
+    (C.plans || []).forEach(function(p, i){
+      var hot = !!p.tag && i === 1;
+      var el = document.createElement("div");
+      el.className = "plan" + (hot ? " hot" : "");
+      var priceHtml = p.price
+        ? '<div><span class="price">' + p.price + ' <small>جنيه</small></span>' + (p.old ? ' <span class="old">' + p.old + ' جنيه</span>' : '') + '</div>'
+        : '<div class="ask">اسأل على السعر</div>';
+      el.innerHTML =
+        (p.tag ? '<span class="tag">' + p.tag + '</span>' : '') +
+        '<h3>CapCut Pro · ' + p.name + '</h3>' + priceHtml +
+        '<ul><li><svg><use href="#i-check"/></svg>حساب مفعّل جاهز</li><li><svg><use href="#i-check"/></svg>ضمان طول المدة</li><li><svg><use href="#i-check"/></svg>دعم فني على واتساب</li></ul>';
+      var a = document.createElement("a");
+      a.className = "btn btn-wa";
+      a.href = wa("أهلاً، عايز أشترك في CapCut Pro باقة " + p.name + (p.price ? " (" + p.price + " جنيه)" : ""));
+      a.target = "_blank"; a.rel = "noopener";
+      a.innerHTML = '<svg><use href="#i-wa"/></svg>اطلب على واتساب';
+      a.addEventListener("click", function(){ ping(p.name); track("Contact", {content_name: "CapCut Pro " + p.name, value: Number(p.price)||0, currency: "EGP"}); });
+      el.appendChild(a);
+      grid.appendChild(el);
+    });
 
-  each(".js-wa", function(a){
-    a.href = wa(a.getAttribute("data-msg"));
-    a.target = "_blank"; a.rel = "noopener";
-    a.addEventListener("click", function(){ track("Contact"); });
-  });
+    each(".js-wa", function(a){ a.href = wa(a.getAttribute("data-msg")); a.target = "_blank"; a.rel = "noopener"; });
 
-  if (C.pixelId){
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', C.pixelId); fbq('track', 'PageView');
+    if (C.pixelId && !pixelOn){
+      pixelOn = true;
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', C.pixelId); fbq('track', 'PageView');
+    }
+  }
+
+  each(".js-wa", function(a){ a.addEventListener("click", function(){ ping("عام"); track("Contact"); }); });
+  render();
+  if (C.api){
+    fetch(C.api + "?config=1").then(function(r){ return r.json(); }).then(function(c){
+      for (var k in c){ if (k !== "api" && c[k] !== undefined) C[k] = c[k]; }
+      render();
+    }).catch(function(){});
   }
 })();
 </script>
